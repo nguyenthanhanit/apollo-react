@@ -7,7 +7,9 @@ const FEED_QUERY = gql`
         getComics {
             id
             name
-            author
+            author {
+                name
+            }
         }
     }
 `;
@@ -22,7 +24,7 @@ const render = (comic) => {
                 {comic.name}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {comic.author}
+                {comic.author.name}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <Link to={`comic/${comic.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>View</Link>
