@@ -25,12 +25,8 @@ const render = (chapter) => {
                 {chapter.name}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button className="py-2 px-4 bg-red-500 text-white rounded-lg shadow-md hover:bg-white hover:text-red-500 focus:outline-none mr-2">
-                    <Link to={`chapter/${chapter.id}`} className='mr-1'>View</Link>
-                </button>
-                <button className="py-2 px-4 bg-red-500 text-white rounded-lg shadow-md hover:bg-white hover:text-red-500 focus:outline-none mr-2">
-                    <Link to={`chapter/edit/${chapter.id}`}>Edit</Link>
-                </button>
+                <Link to={`chapter/${chapter.id}`} className='mr-1 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>View</Link>
+                <Link to={`chapter/edit/${chapter.id}`} className='mr-1 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>View</Link>
             </td>
         </tr>
     );

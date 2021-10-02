@@ -27,7 +27,7 @@ const User = () => {
                 <td>
                     <input type="text"
                            className='border border-emerald-300 focus:border-emerald-500 bg-white text-green-900 appearance-none inline-block w-full focus:text-red-600 rounded py-3 px-4 focus:outline-none'
-                           value={user.name}/>
+                           value={user.name} readOnly={true}/>
                 </td>
             </tr>
             <tr>
@@ -35,7 +35,7 @@ const User = () => {
                 <td>
                     <input type="email"
                            className='border border-emerald-300 focus:border-emerald-500 bg-white text-green-900 appearance-none inline-block w-full focus:text-red-600 rounded py-3 px-4 focus:outline-none'
-                           value={user.email}/>
+                           value={user.email} readOnly={true}/>
                 </td>
             </tr>
             <tr>
@@ -43,7 +43,7 @@ const User = () => {
                 <td>
                     <input type="password"
                            className='border border-emerald-300 focus:border-emerald-500 bg-white text-green-900 appearance-none inline-block w-full focus:text-red-600 rounded py-3 px-4 focus:outline-none'
-                           value={user.password}/>
+                           value={user.password} readOnly={true}/>
                 </td>
             </tr>
             </tbody>

@@ -25,9 +25,7 @@ const render = (user) => {
                 {user.email}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button className="py-2 px-4 bg-red-500 text-white rounded-lg shadow-md hover:bg-white hover:text-red-500 focus:outline-none mr-2">
-                    <Link to={`author/${user.id}`} className='mr-1'>View</Link>
-                </button>
+                <Link to={`author/${user.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium'>View</Link>
             </td>
         </tr>
     );

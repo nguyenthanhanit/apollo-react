@@ -17,7 +17,6 @@ const buildQuery = (id) => {
 const Chapter = () => {
     const {id} = useParams();
     const chapter = _.get(useQuery(buildQuery(id)), 'data.getChapter', []);
-    console.log(chapter)
 
     return (
         chapter && <div>
