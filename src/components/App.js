@@ -6,14 +6,16 @@ import {
     Link
 } from "react-router-dom";
 import Users from "./Users";
+import User from "./User";
 import Comics from "./Comics"
 import Comic from "./Comic";
+import Chapter from "./Chapter";
 
 class App extends Component {
     render() {
         return <Router>
             <div className='container m-auto'>
-                <nav className="bg-blue-300">
+                <nav className="bg-blue-300 mb-10">
                     <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                         <div className="relative flex items-center justify-between h-16">
                             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
@@ -29,8 +31,10 @@ class App extends Component {
                 </nav>
                 <Switch>
                     <Route exact path="/author" component={Users} />
+                    <Route exact path="/author/:id" component={User} />
                     <Route exact path="/comic" component={Comics} />
                     <Route exact path="/comic/:id" component={Comic} />
+                    <Route exact path="/comic/chapter/:id" component={Chapter} />
                 </Switch>
             </div>
         </Router>

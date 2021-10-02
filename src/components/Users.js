@@ -8,7 +8,6 @@ const FEED_QUERY = gql`
             id
             name
             email
-            password
         }
     }
 `;
@@ -26,14 +25,8 @@ const render = (user) => {
                 {user.email}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {user.password}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <button className="py-2 px-4 bg-red-500 text-white rounded-lg shadow-md hover:bg-white hover:text-red-500 focus:outline-none mr-2">
-                    <Link to={`user/${user.id}`} className='mr-1'>View</Link>
-                </button>
-                <button className="py-2 px-4 bg-red-500 text-white rounded-lg shadow-md hover:bg-white hover:text-red-500 focus:outline-none">
-                    <Link to={`user/edit/${user.id}`}>Edit</Link>
+                    <Link to={`author/${user.id}`} className='mr-1'>View</Link>
                 </button>
             </td>
         </tr>
@@ -61,10 +54,6 @@ const Users = () => {
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Email
-                                </th>
-                                <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Password
                                 </th>
                                 <th scope="col" className="relative px-6 py-3">
                                     <span className="sr-only">Action</span>

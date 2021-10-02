@@ -1,17 +1,19 @@
 import {useQuery, gql} from '@apollo/client';
 import _ from "lodash";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
-const FEED_QUERY = gql`
-    {
-        getChapters(id: 1) {
-            id
-            name
-            content
-            comic
+const buildQuery = (id) => {
+    return gql`
+        {
+            getChapters(id: ${id}) {
+                id
+                name
+                content
+                comic
+            }
         }
-    }
-`;
+    `;
+}
 
 const render = (chapter) => {
     return (
@@ -35,7 +37,8 @@ const render = (chapter) => {
 }
 
 const Comic = () => {
-    const chapters = _.get(useQuery(FEED_QUERY), 'data.getChapters', []);
+    const {id} = useParams();
+    const chapters = _.get(useQuery(buildQuery(id)), 'data.getChapters', []);
 
     return (
         <div className="flex flex-col">
