@@ -7,7 +7,7 @@ const FEED_QUERY = gql`
         getAuthors {
             id
             name
-            email
+            gender
         }
     }
 `;
@@ -22,7 +22,7 @@ const render = (author) => {
                 {author.name}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {author.email}
+                {author.gender}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <Link to={`author/${author.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium'>View</Link>
@@ -52,7 +52,7 @@ const Authors = () => {
                                 </th>
                                 <th scope="col"
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Email
+                                    Gender
                                 </th>
                                 <th scope="col" className="relative px-6 py-3">
                                     <span className="sr-only">Action</span>
