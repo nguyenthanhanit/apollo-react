@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom";
 const buildQuery = (id) => {
     return gql`
         {
-            getUser(id: ${id}) {
+            getAuthor(id: ${id}) {
                 id
                 name
                 email
@@ -15,9 +15,9 @@ const buildQuery = (id) => {
     `;
 }
 
-const User = () => {
+const Author = () => {
     const {id} = useParams();
-    const user = _.get(useQuery(buildQuery(id)), 'data.getUser', []);
+    const author = _.get(useQuery(buildQuery(id)), 'data.getAuthor', []);
 
     return <form action="#" method='POST'>
         <table className='w-full'>
@@ -27,7 +27,7 @@ const User = () => {
                 <td>
                     <input type="text"
                            className='border border-emerald-300 focus:border-emerald-500 bg-white text-green-900 appearance-none inline-block w-full focus:text-red-600 rounded py-3 px-4 focus:outline-none'
-                           value={user.name} readOnly={true}/>
+                           value={author.name} readOnly={true}/>
                 </td>
             </tr>
             <tr>
@@ -35,7 +35,7 @@ const User = () => {
                 <td>
                     <input type="email"
                            className='border border-emerald-300 focus:border-emerald-500 bg-white text-green-900 appearance-none inline-block w-full focus:text-red-600 rounded py-3 px-4 focus:outline-none'
-                           value={user.email} readOnly={true}/>
+                           value={author.email} readOnly={true}/>
                 </td>
             </tr>
             <tr>
@@ -43,7 +43,7 @@ const User = () => {
                 <td>
                     <input type="password"
                            className='border border-emerald-300 focus:border-emerald-500 bg-white text-green-900 appearance-none inline-block w-full focus:text-red-600 rounded py-3 px-4 focus:outline-none'
-                           value={user.password} readOnly={true}/>
+                           value={author.password} readOnly={true}/>
                 </td>
             </tr>
             </tbody>
@@ -51,4 +51,4 @@ const User = () => {
     </form>
 }
 
-export default User
+export default Author

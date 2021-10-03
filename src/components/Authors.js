@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 const FEED_QUERY = gql`
     {
-        getUsers {
+        getAuthors {
             id
             name
             email
@@ -12,27 +12,28 @@ const FEED_QUERY = gql`
     }
 `;
 
-const render = (user) => {
+const render = (author) => {
     return (
-        <tr key={user.id}>
+        <tr key={author.id}>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {user.id}
+                {author.id}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {user.name}
+                {author.name}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {user.email}
+                {author.email}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <Link to={`author/${user.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium'>View</Link>
+                <Link to={`author/${author.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium'>View</Link>
             </td>
         </tr>
     );
 }
 
-const Users = () => {
-    const users = _.get(useQuery(FEED_QUERY), 'data.getUsers', []);
+const Authors = () => {
+    const authors = _.get(useQuery(FEED_QUERY), 'data.getAuthors', []);
+
     return (
         <div className="flex flex-col">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -60,7 +61,7 @@ const Users = () => {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {
-                                _.map(users, render)
+                                _.map(authors, render)
                             }
                             </tbody>
                         </table>
@@ -71,4 +72,4 @@ const Users = () => {
     );
 };
 
-export default Users;
+export default Authors;

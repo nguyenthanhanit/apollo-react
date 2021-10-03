@@ -5,8 +5,8 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import Users from "./Users";
-import User from "./User";
+import Authors from "./Authors";
+import Author from "./Author";
 import Comics from "./Comics"
 import Comic from "./Comic";
 import Chapter from "./Chapter";
@@ -30,8 +30,8 @@ class App extends Component {
                     </div>
                 </nav>
                 <Switch>
-                    <Route exact path="/author" component={Users} />
-                    <Route exact path="/author/:id" component={User} />
+                    <Route exact path="/author" component={Authors} />
+                    <Route exact path="/author/:id" component={Author} />
                     <Route exact path="/comic" component={Comics} />
                     <Route exact path="/comic/:id" component={Comic} />
                     <Route exact path="/comic/chapter/:id" component={Chapter} />
