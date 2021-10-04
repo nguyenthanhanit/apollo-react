@@ -1,41 +1,27 @@
-import {useQuery, gql} from '@apollo/client';
-import _ from "lodash";
 import {Link} from "react-router-dom";
+import _ from "lodash";
 
-const FEED_QUERY = gql`
-    {
-        getComics {
-            id
-            name
-            author {
-                name
-            }
-        }
-    }
-`;
-
-const render = (comic) => {
+const render = (chapter) => {
     return (
-        <tr key={comic.id}>
+        <tr key={chapter.id}>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {comic.id}
+                {chapter.id}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {comic.name}
+                {chapter.name}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {comic.author.name}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <Link to={`comic/${comic.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>View</Link>
-                <Link to={`comic/edit/${comic.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium'>Edit</Link>
+                <Link to={`chapter/${chapter.id}`}
+                      className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>View</Link>
+                <Link to={`chapter/${chapter.id}/edit`}
+                      className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium'>Edit</Link>
             </td>
         </tr>
     );
 }
 
-const Comics = () => {
-    const comics = _.get(useQuery(FEED_QUERY), 'data.getComics', []);
+const Comics = (props) => {
+    const chapters = props.list;
 
     return (
         <div className="flex flex-col">
@@ -53,10 +39,6 @@ const Comics = () => {
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Author
-                                </th>
                                 <th scope="col" className="relative px-6 py-3">
                                     <span className="sr-only">Action</span>
                                 </th>
@@ -64,7 +46,7 @@ const Comics = () => {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {
-                                _.map(comics, render)
+                                _.map(chapters, render)
                             }
                             </tbody>
                         </table>

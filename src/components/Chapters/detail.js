@@ -6,7 +6,6 @@ const buildQuery = (id) => {
     return gql`
         {
             getChapter(id: ${id}) {
-                id
                 name
                 content
             }

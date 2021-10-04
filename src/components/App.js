@@ -5,11 +5,16 @@ import {
     Route,
     Link
 } from "react-router-dom";
+// Authors
 import Authors from "./Authors";
-import Author from "./Author";
-import Comics from "./Comics"
-import Comic from "./Comic";
-import Chapter from "./Chapter";
+import Author from "./Authors/detail";
+// import EditAuthor from './Authors/update';
+// Comics
+import Comics from "./Comics";
+import Comic from "./Comics/detail";
+import EditComic from './Comics/update';
+// Chapters
+import Chapter from "./Chapters/detail";
 
 class App extends Component {
     render() {
@@ -32,8 +37,12 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/author" component={Authors} />
                     <Route exact path="/author/:id" component={Author} />
+                    {/*<Route exact path="/author/:id/edit" component={EditAuthor} />*/}
+
                     <Route exact path="/comic" component={Comics} />
                     <Route exact path="/comic/:id" component={Comic} />
+                    <Route exact path="/comic/:id/edit" component={EditComic} />
+
                     <Route exact path="/comic/chapter/:id" component={Chapter} />
                 </Switch>
             </div>
