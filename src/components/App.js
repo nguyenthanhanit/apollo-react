@@ -19,7 +19,7 @@ import Chapter from "./Chapters/detail";
 class App extends Component {
     render() {
         return <Router>
-            <div className='container m-auto'>
+            <div className='container mx-auto px-4'>
                 <nav className="bg-blue-300 mb-10">
                     <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                         <div className="relative flex items-center justify-between h-16">
