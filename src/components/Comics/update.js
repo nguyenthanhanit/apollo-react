@@ -3,7 +3,7 @@ import _ from "lodash";
 import {useParams} from "react-router-dom";
 import React, {useState} from 'react';
 
-const buildQuery = (id) => {
+const GET_DATA = (id) => {
     return gql`
         {
             getComic(id: ${id}) {
@@ -36,17 +36,14 @@ const buildQuery = (id) => {
 }
 
 const UPDATE_COMIC = gql`
-    mutation UpdateComicMutation($id: ID!, $name: String) {
-        updateComic(id: $id, name: $name) {
+    mutation UpdateComicMutation($id: ID!, $name: String, $author: Int, $type: Int) {
+        updateComic(id: $id, name: $name, authorId: $author, typeId: $type) {
             id
             name
-            author {
-                id
-            }
             type {
                 id
             }
-            categories {
+            author {
                 id
             }
         }
@@ -57,8 +54,8 @@ const Form = (props) => {
     const [dataForm, setDataForm] = useState({
         id: _.get(props, 'getComic.id'),
         name: _.get(props, 'getComic.name'),
-        author: _.get(props, 'getComic.author.id'),
-        type: _.get(props, 'getComic.type.id'),
+        author: parseInt(_.get(props, 'getComic.author.id')),
+        type: parseInt(_.get(props, 'getComic.type.id')),
         categories: _.get(props, 'getComic.type.id'),
     });
     const types = _.get(props, 'getTypes');
@@ -89,7 +86,7 @@ const Form = (props) => {
                     <td>
                         <select name="author" id="author" className='border-2 h-10 w-full p-2'
                                 value={dataForm.author}
-                                onChange={(e) => setDataForm({...dataForm, ...{author: e.target.value}})}>
+                                onChange={(e) => setDataForm({...dataForm, ...{author: parseInt(e.target.value)}})}>
                             {
                                 authors && _.map(authors, function (author) {
                                     return <option key={author.id} value={author.id}>{author.name}</option>
@@ -106,8 +103,8 @@ const Form = (props) => {
                                 types && _.map(types, function (type) {
                                     return <div className='flex-1' key={`type-${type.id}`}>
                                         <input type="radio" id={`type-${type.id}`} name='type' value={type.id}
-                                               checked={dataForm.type === type.id}
-                                               onChange={(e) => setDataForm({...dataForm, ...{type: e.target.value}})}/>
+                                               checked={dataForm.type === parseInt(type.id)}
+                                               onChange={(e) => setDataForm({...dataForm, ...{type: parseInt(e.target.value)}})}/>
                                         <label htmlFor={`type-${type.id}`}>{type.name}</label>
                                     </div>
                                 })
@@ -128,7 +125,7 @@ const Form = (props) => {
 
 const Comic = () => {
     const {id} = useParams();
-    const {data = {}} = useQuery(buildQuery(id));
+    const {data = {}} = useQuery(GET_DATA(id));
     if (_.isEmpty(data)) {
         return <></>
     }
