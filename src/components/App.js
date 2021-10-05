@@ -13,6 +13,7 @@ import Author from "./Authors/detail";
 import Comics from "./Comics";
 import Comic from "./Comics/detail";
 import EditComic from './Comics/update';
+import CreateComic from './Comics/create';
 // Chapters
 import Chapter from "./Chapters/detail";
 
@@ -40,6 +41,7 @@ class App extends Component {
                     {/*<Route exact path="/author/:id/edit" component={EditAuthor} />*/}
 
                     <Route exact path="/comic" component={Comics} />
+                    <Route exact path="/comic/create" component={CreateComic} />
                     <Route exact path="/comic/:id" component={Comic} />
                     <Route exact path="/comic/:id/edit" component={EditComic} />
 
