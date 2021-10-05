@@ -48,27 +48,55 @@ const UPDATE_DATA = gql`
     }
 `;
 
+const Save = (event, updateComic, data) => {
+    event.preventDefault();
+    updateComic({
+            variables: data
+        }
+    );
+}
+
 const Form = (props) => {
+    const [updateComic] = useMutation(UPDATE_DATA);
+    const types = _.get(props, 'getTypes');
+    const authors = _.get(props, 'getAuthors');
+    const categories = _.get(props, 'getCategories');
     const [dataForm, setDataForm] = useState({
         id: _.get(props, 'getComic.id'),
         name: _.get(props, 'getComic.name'),
-        author: parseInt(_.get(props, 'getComic.author.id')),
-        type: parseInt(_.get(props, 'getComic.type.id')),
-        categories: _.get(props, 'getComic.type.id'),
+        author: _.get(props, 'getComic.author.id'),
+        type: _.get(props, 'getComic.type.id'),
+        categories: _.map(props.getComic.categories, function (category) {
+            return category.id
+        })
     });
-    const types = _.get(props, 'getTypes');
-    const authors = _.get(props, 'getAuthors');
-    const [updateComic] = useMutation(UPDATE_DATA);
+
+    const handleChange = (event) => {
+        const target = event.target;
+        const name = target.name;
+        let value = target.type === 'checkbox' ? target.checked : target.value;
+
+        if (_.isArray(dataForm[name])) {
+            value = dataForm[name];
+            if (target.checked) {
+                value.push(target.value)
+            } else {
+                _.remove(value, function (o) {
+                    return o === target.value;
+                })
+            }
+        }
+
+        setDataForm({
+            ...dataForm,
+            ...{
+                [name]: value
+            }
+        });
+    }
 
     return (
-        <form className='w-full' onSubmit={
-            event => {
-                event.preventDefault();
-                updateComic({
-                        variables: dataForm
-                    }
-                );
-            }}>
+        <form className='w-full' onSubmit={event => Save(event, updateComic, dataForm)}>
             <table className='w-1/2 mx-auto'>
                 <tbody>
                 <tr>
@@ -76,7 +104,7 @@ const Form = (props) => {
                     <td>
                         <input type="text" name='name' className='border-2 h-10 w-full p-2'
                                value={dataForm.name}
-                               onChange={(e) => setDataForm({...dataForm, ...{name: e.target.value}})}/>
+                               onChange={handleChange}/>
                     </td>
                 </tr>
                 <tr>
@@ -84,7 +112,7 @@ const Form = (props) => {
                     <td>
                         <select name="author" id="author" className='border-2 h-10 w-full p-2'
                                 value={dataForm.author}
-                                onChange={(e) => setDataForm({...dataForm, ...{author: parseInt(e.target.value)}})}>
+                                onChange={handleChange}>
                             {
                                 authors && _.map(authors, function (author) {
                                     return <option key={author.id} value={author.id}>{author.name}</option>
@@ -101,9 +129,27 @@ const Form = (props) => {
                                 types && _.map(types, function (type) {
                                     return <div className='flex-1' key={`type-${type.id}`}>
                                         <input type="radio" id={`type-${type.id}`} name='type' value={type.id}
-                                               checked={dataForm.type === parseInt(type.id)}
-                                               onChange={(e) => setDataForm({...dataForm, ...{type: parseInt(e.target.value)}})}/>
+                                               checked={dataForm.type === type.id}
+                                               onChange={handleChange}/>
                                         <label htmlFor={`type-${type.id}`}>{type.name}</label>
+                                    </div>
+                                })
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Categories</td>
+                    <td>
+                        <div className='flex gap-2 w-full'>
+                            {
+                                categories && _.map(categories, function (category) {
+                                    return <div className='flex-1' key={`cat-${category.id}`}>
+                                        <input type="checkbox" id={`cat-${category.id}`} name='categories'
+                                               value={category.id}
+                                               checked={dataForm.categories.includes(category.id)}
+                                               onChange={handleChange}/>
+                                        <label htmlFor={`cat-${category.id}`}>{category.name}</label>
                                     </div>
                                 })
                             }
