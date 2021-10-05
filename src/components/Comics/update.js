@@ -34,8 +34,8 @@ const GET_DATA = gql`
 `;
 
 const UPDATE_DATA = gql`
-    mutation UpdateComicMutation($id: ID!, $name: String, $author: Int, $type: Int) {
-        updateComic(id: $id, name: $name, authorId: $author, typeId: $type) {
+    mutation UpdateComicMutation($id: ID!, $name: String, $author: Int, $type: Int, $categories: Array) {
+        updateComic(id: $id, name: $name, authorId: $author, typeId: $type, categories: $categories) {
             id
             name
             type {
@@ -64,27 +64,28 @@ const Form = (props) => {
     const [dataForm, setDataForm] = useState({
         id: _.get(props, 'getComic.id'),
         name: _.get(props, 'getComic.name'),
-        author: _.get(props, 'getComic.author.id'),
-        type: _.get(props, 'getComic.type.id'),
-        categories: _.map(props.getComic.categories, function (category) {
-            return category.id
-        })
+        author: parseInt(_.get(props, 'getComic.author.id')),
+        type: parseInt(_.get(props, 'getComic.type.id')),
+        categories: _.map(_.map(props.getComic.categories, 'id'), _.parseInt)
     });
 
     const handleChange = (event) => {
         const target = event.target;
-        const name = target.name;
-        let value = target.type === 'checkbox' ? target.checked : target.value;
+        let {name, value} = target;
+        if (_.includes(['radio', 'select-one', 'checkbox'], target.type)) {
+            value = parseInt(value)
+        }
 
         if (_.isArray(dataForm[name])) {
-            value = dataForm[name];
+            const cloneData = dataForm[name];
             if (target.checked) {
-                value.push(target.value)
+                cloneData.push(value)
             } else {
-                _.remove(value, function (o) {
-                    return o === target.value;
+                _.remove(cloneData, function (o) {
+                    return o === value;
                 })
             }
+            value = cloneData;
         }
 
         setDataForm({
@@ -129,7 +130,7 @@ const Form = (props) => {
                                 types && _.map(types, function (type) {
                                     return <div className='flex-1' key={`type-${type.id}`}>
                                         <input type="radio" id={`type-${type.id}`} name='type' value={type.id}
-                                               checked={dataForm.type === type.id}
+                                               checked={dataForm.type === parseInt(type.id)}
                                                onChange={handleChange}/>
                                         <label htmlFor={`type-${type.id}`}>{type.name}</label>
                                     </div>
@@ -147,7 +148,7 @@ const Form = (props) => {
                                     return <div className='flex-1' key={`cat-${category.id}`}>
                                         <input type="checkbox" id={`cat-${category.id}`} name='categories'
                                                value={category.id}
-                                               checked={dataForm.categories.includes(category.id)}
+                                               checked={dataForm.categories.includes(_.parseInt(category.id))}
                                                onChange={handleChange}/>
                                         <label htmlFor={`cat-${category.id}`}>{category.name}</label>
                                     </div>
