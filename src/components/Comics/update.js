@@ -44,6 +44,9 @@ const UPDATE_DATA = gql`
             author {
                 id
             }
+            categories {
+                id
+            }
         }
     }
 `;
@@ -172,6 +175,7 @@ const Comic = () => {
     const {loading, data} = useQuery(GET_DATA, {
         variables: useParams()
     });
+    console.log(data)
     if (loading) {
         return <div>Loading</div>
     }
