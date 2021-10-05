@@ -3,39 +3,37 @@ import _ from "lodash";
 import {useParams} from "react-router-dom";
 import React, {useState} from 'react';
 
-const GET_DATA = (id) => {
-    return gql`
-        {
-            getComic(id: ${id}) {
+const GET_DATA = gql`
+    query Query($id: ID!) {
+        getComic(id: $id) {
+            id
+            name
+            author {
                 id
-                name
-                author {
-                    id
-                }
-                type {
-                    id
-                }
-                categories {
-                    id
-                }
             }
-            getCategories {
+            type {
                 id
-                name
             }
-            getTypes {
+            categories {
                 id
-                name
-            }
-            getAuthors {
-                id
-                name
             }
         }
-    `;
-}
+        getAuthors {
+            id
+            name
+        }
+        getTypes {
+            id
+            name
+        }
+        getCategories {
+            id
+            name
+        }
+    }
+`;
 
-const UPDATE_COMIC = gql`
+const UPDATE_DATA = gql`
     mutation UpdateComicMutation($id: ID!, $name: String, $author: Int, $type: Int) {
         updateComic(id: $id, name: $name, authorId: $author, typeId: $type) {
             id
@@ -60,7 +58,7 @@ const Form = (props) => {
     });
     const types = _.get(props, 'getTypes');
     const authors = _.get(props, 'getAuthors');
-    const [updateComic, {data, loading, error}] = useMutation(UPDATE_COMIC);
+    const [updateComic] = useMutation(UPDATE_DATA);
 
     return (
         <form className='w-full' onSubmit={
@@ -124,10 +122,11 @@ const Form = (props) => {
 }
 
 const Comic = () => {
-    const {id} = useParams();
-    const {data = {}} = useQuery(GET_DATA(id));
-    if (_.isEmpty(data)) {
-        return <></>
+    const {loading, data} = useQuery(GET_DATA, {
+        variables: useParams()
+    });
+    if (loading) {
+        return <div>Loading</div>
     }
     return <Form {...data} />
 }
