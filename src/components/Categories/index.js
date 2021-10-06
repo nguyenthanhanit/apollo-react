@@ -1,34 +1,57 @@
-import {useQuery, gql} from '@apollo/client';
+import {useQuery, gql, useMutation} from '@apollo/client';
 import _ from "lodash";
 import {Link} from "react-router-dom";
+import {save} from "../../utils";
+import React from "react";
 
-const FEED_QUERY = gql`
-    {
+const GET_DATA = gql`
+    query Query {
         getCategories {
             id
             name
         }
     }
+
 `;
 
-const render = (category) => {
-    return (
-        <tr key={category.id}>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {category.id}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {category.name}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <Link to={`category/${category.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium'>View</Link>
-            </td>
-        </tr>
-    );
-}
+const DELETE_DATA = gql`
+    mutation DeleteCategoryMutation($id: ID!) {
+        deleteCategory(id: $id)
+    }
+`;
 
-const Authors = () => {
-    const categories = _.get(useQuery(FEED_QUERY), 'data.getCategories', []);
+const Categories = () => {
+    const categories = _.get(useQuery(GET_DATA), 'data.getCategories', []);
+    const [deleteCategory] = useMutation(DELETE_DATA, {
+        refetchQueries: [
+            GET_DATA, // DocumentNode object parsed with gql
+            'getCategories' // Query name
+        ],
+    });
+
+    const render = category => {
+        return (
+            <tr key={category.id}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {category.id}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {category.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <Link to={`category/${category.id}`}
+                          className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>View</Link>
+                    <button
+                        type="button"
+                        className="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-medium"
+                        onClick={(event) => save(event, deleteCategory, {id: category.id})}
+                    >
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        );
+    }
 
     return (
         <div className="flex flex-col">
@@ -64,4 +87,4 @@ const Authors = () => {
     );
 };
 
-export default Authors;
+export default Categories;

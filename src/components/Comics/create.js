@@ -41,8 +41,25 @@ const CREATE_DATA = gql`
     }
 `;
 
+const GET_ALL_DATA = gql`
+    query Query {
+        getComics {
+            id
+            name
+            author {
+                name
+            }
+        }
+    }
+`;
+
 const Form = props => {
-    const [createComic] = useMutation(CREATE_DATA);
+    const [createComic] = useMutation(CREATE_DATA, {
+        refetchQueries: [
+            GET_ALL_DATA, // DocumentNode object parsed with gql
+            'getComics' // Query name
+        ],
+    });
     let {getTypes, getAuthors, getCategories} = props;
     const [open, setOpen] = useState(false);
     const [modelModal, setModelModal] = useState('');

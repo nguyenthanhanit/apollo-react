@@ -1,9 +1,11 @@
-import {useQuery, gql} from '@apollo/client';
+import {useQuery, gql, useMutation} from '@apollo/client';
 import _ from "lodash";
 import {Link} from "react-router-dom";
+import React from "react";
+import {save} from "../../utils";
 
-const FEED_QUERY = gql`
-    {
+const GET_DATA = gql`
+    query Query {
         getComics {
             id
             name
@@ -14,32 +16,54 @@ const FEED_QUERY = gql`
     }
 `;
 
-const render = (comic) => {
-    return (
-        <tr key={comic.id}>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {comic.id}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {comic.name}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {comic.author.name}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <Link to={`comic/${comic.id}`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>View</Link>
-                <Link to={`comic/${comic.id}/edit`} className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium'>Edit</Link>
-            </td>
-        </tr>
-    );
-}
+const DELETE_DATA = gql`
+    mutation DeleteComicMutation($id: ID!) {
+        deleteComic(id: $id)
+    }
+`;
 
 const Comics = () => {
-    const comics = _.get(useQuery(FEED_QUERY), 'data.getComics', []);
+    const comics = _.get(useQuery(GET_DATA), 'data.getComics', []);
+    const [deleteComic] = useMutation(DELETE_DATA, {
+        refetchQueries: [
+            GET_DATA, // DocumentNode object parsed with gql
+            'getComics' // Query name
+        ],
+    });
+
+    const render = comic => {
+        return (
+            <tr key={comic.id}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {comic.id}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {comic.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {comic.author.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <Link to={`comic/${comic.id}`}
+                          className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>View</Link>
+                    <Link to={`comic/${comic.id}/edit`}
+                          className='bg-green-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>Edit</Link>
+                    <button
+                        type="button"
+                        className="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-medium"
+                        onClick={(event) => save(event, deleteComic, {id: comic.id})}
+                    >
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        );
+    }
 
     return (
         <>
-            <Link to='comic/create' className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>Create</Link>
+            <Link to='comic/create'
+                  className='bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1'>Create</Link>
             <div className="mt-5 flex flex-col">
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
