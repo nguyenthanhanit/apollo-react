@@ -2,6 +2,7 @@ import {useQuery, gql, useMutation} from '@apollo/client';
 import _ from "lodash";
 import {useParams} from "react-router-dom";
 import React, {useState} from 'react';
+import {onChange, save} from "../../utils";
 
 const GET_DATA = gql`
     query Query($id: ID!) {
@@ -51,15 +52,7 @@ const UPDATE_DATA = gql`
     }
 `;
 
-const Save = (event, updateComic, data) => {
-    event.preventDefault();
-    updateComic({
-            variables: data
-        }
-    );
-}
-
-const Form = (props) => {
+const Form = props => {
     const [updateComic] = useMutation(UPDATE_DATA);
     const types = _.get(props, 'getTypes');
     const authors = _.get(props, 'getAuthors');
@@ -72,35 +65,16 @@ const Form = (props) => {
         categories: _.map(_.map(props.getComic.categories, 'id'), _.parseInt)
     });
 
-    const handleChange = (event) => {
-        const target = event.target;
-        let {name, value} = target;
-        if (_.includes(['radio', 'select-one', 'checkbox'], target.type)) {
-            value = parseInt(value)
-        }
+    const handleSubmit = event => {
+        save(event, updateComic, dataForm)
+    }
 
-        if (_.isArray(dataForm[name])) {
-            const cloneData = dataForm[name];
-            if (target.checked) {
-                cloneData.push(value)
-            } else {
-                _.remove(cloneData, function (o) {
-                    return o === value;
-                })
-            }
-            value = cloneData;
-        }
-
-        setDataForm({
-            ...dataForm,
-            ...{
-                [name]: value
-            }
-        });
+    const handle = event => {
+        onChange(event, setDataForm, dataForm)
     }
 
     return (
-        <form className='w-full' onSubmit={event => Save(event, updateComic, dataForm)}>
+        <form className='w-full' onSubmit={handleSubmit}>
             <table className='w-1/2 mx-auto'>
                 <tbody>
                 <tr>
@@ -108,7 +82,7 @@ const Form = (props) => {
                     <td>
                         <input type="text" name='name' className='border-2 h-10 w-full p-2'
                                value={dataForm.name}
-                               onChange={handleChange}/>
+                               onChange={handle}/>
                     </td>
                 </tr>
                 <tr>
@@ -116,7 +90,7 @@ const Form = (props) => {
                     <td>
                         <select name="author" id="author" className='border-2 h-10 w-full p-2'
                                 value={dataForm.author}
-                                onChange={handleChange}>
+                                onChange={handle}>
                             {
                                 authors && _.map(authors, function (author) {
                                     return <option key={author.id} value={author.id}>{author.name}</option>
@@ -134,7 +108,7 @@ const Form = (props) => {
                                     return <div className='flex-1' key={`type-${type.id}`}>
                                         <input type="radio" id={`type-${type.id}`} name='type' value={type.id}
                                                checked={dataForm.type === parseInt(type.id)}
-                                               onChange={handleChange}/>
+                                               onChange={handle}/>
                                         <label htmlFor={`type-${type.id}`}>{type.name}</label>
                                     </div>
                                 })
@@ -152,7 +126,7 @@ const Form = (props) => {
                                         <input type="checkbox" id={`cat-${category.id}`} name='categories'
                                                value={category.id}
                                                checked={dataForm.categories.includes(_.parseInt(category.id))}
-                                               onChange={handleChange}/>
+                                               onChange={handle}/>
                                         <label htmlFor={`cat-${category.id}`}>{category.name}</label>
                                     </div>
                                 })
@@ -171,7 +145,7 @@ const Form = (props) => {
     )
 }
 
-const Comic = () => {
+function Comic() {
     const {loading, data} = useQuery(GET_DATA, {
         variables: useParams()
     });

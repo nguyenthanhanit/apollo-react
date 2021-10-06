@@ -8,7 +8,6 @@ import {
 // Authors
 import Authors from "./Authors";
 import Author from "./Authors/detail";
-// import EditAuthor from './Authors/update';
 // Comics
 import Comics from "./Comics";
 import Comic from "./Comics/detail";
@@ -38,7 +37,6 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/author" component={Authors} />
                     <Route exact path="/author/:id" component={Author} />
-                    {/*<Route exact path="/author/:id/edit" component={EditAuthor} />*/}
 
                     <Route exact path="/comic" component={Comics} />
                     <Route exact path="/comic/create" component={CreateComic} />

@@ -5,32 +5,31 @@ import React from "react";
 
 const GET_DATA = gql`
     query Query($id: ID!) {
-        getAuthor(id: $id) {
-            id
+        getCategory(id: $id) {
             name
-            gender
+            description
         }
     }
 `;
 
-function Author() {
+function Category() {
     const {loading, data} = useQuery(GET_DATA, {
         variables: useParams()
     });
-    const author = _.get(data, 'getAuthor', []);
+    const category = _.get(data, 'getCategory', []);
     if (loading) {
         return <div>Loading</div>
     }
 
     return <div>
-        {!_.isEmpty(author) &&
+        {!_.isEmpty(category) &&
         <h2>
-            Name: {author.name}
+            Name: {category.name}
             <br/>
-            Gender: {author.gender ? 'Male' : 'Female'}
+            Description: {category.description}
         </h2>
         }
     </div>
 }
 
-export default Author
+export default Category

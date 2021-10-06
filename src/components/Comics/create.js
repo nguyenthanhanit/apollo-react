@@ -3,6 +3,8 @@ import {Dialog, Transition} from '@headlessui/react'
 import {useQuery, gql, useMutation} from '@apollo/client';
 import _ from "lodash";
 import CreateAuthor from '../Authors/create';
+import CreateCategory from '../Categories/create';
+import {onChange, save} from "../../utils";
 
 const GET_DATA = gql`
     query Query {
@@ -40,10 +42,11 @@ const CREATE_DATA = gql`
 `;
 
 const Form = props => {
-    const [updateComic] = useMutation(CREATE_DATA);
+    const [createComic] = useMutation(CREATE_DATA);
     let {getTypes, getAuthors, getCategories} = props;
-    const [open, setOpen] = useState(false)
-    const cancelButtonRef = useRef(null)
+    const [open, setOpen] = useState(false);
+    const [modelModal, setModelModal] = useState('');
+    const cancelButtonRef = useRef(null);
     const [dataForm, setDataForm] = useState({
         name: '',
         author: _.parseInt(_.get(getAuthors, ['0', 'id'])),
@@ -51,43 +54,17 @@ const Form = props => {
         categories: []
     });
 
-    const save = event => {
-        event.preventDefault();
-        updateComic({
-                variables: dataForm
-            }
-        );
+    const handleSubmit = event => {
+        save(event, createComic, dataForm)
     }
 
-    const close = () => {
-        setOpen(false)
+    const handleModal = event => {
+        if (!open) setModelModal(event.target.id)
+        setOpen(!open)
     }
 
-    const onChange = (event) => {
-        const target = event.target;
-        let {name, value} = target;
-        if (_.includes(['radio', 'select-one', 'checkbox'], target.type)) {
-            value = parseInt(value)
-        }
-
-        if (_.isArray(dataForm[name])) {
-            const cloneData = dataForm[name];
-            if (target.checked) {
-                cloneData.push(value)
-            } else {
-                _.remove(cloneData, function (o) {
-                    return o === value;
-                })
-            }
-            value = cloneData;
-        }
-
-        setDataForm({
-            ...dataForm,
-            ...{
-                [name]: value
-            }
-        });
+    const handle = event => {
+        onChange(event, setDataForm, dataForm)
     }
 
     const modal = (
@@ -125,10 +102,17 @@ const Form = props => {
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <Dialog.Title as="h3"
                                                   className="text-lg leading-6 font-medium text-gray-900">
-                                        Add Author
+                                        Add {modelModal}
                                     </Dialog.Title>
                                     <div className="mt-2 mb-16">
-                                        <CreateAuthor width='w-full' onClose={close} query={GET_DATA}/>
+                                        {
+                                            modelModal === 'Author' &&
+                                            <CreateAuthor width='w-full' onClose={handleModal} query={GET_DATA}/>
+                                        }
+                                        {
+                                            modelModal === 'Category' &&
+                                            <CreateCategory width='w-full' onClose={handleModal} query={GET_DATA}/>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -139,10 +123,9 @@ const Form = props => {
         </Transition.Root>
     )
 
-
     return (
         <>
-            <form className='w-full' onSubmit={save}>
+            <form className='w-full' onSubmit={handleSubmit}>
                 <table className='w-1/2 mx-auto'>
                     <tbody>
                     <tr>
@@ -150,7 +133,7 @@ const Form = props => {
                         <td>
                             <input type="text" name='name' className='border-2 h-10 w-full p-2'
                                    value={dataForm.name}
-                                   onChange={onChange}/>
+                                   onChange={handle}/>
                         </td>
                     </tr>
                     <tr>
@@ -158,7 +141,7 @@ const Form = props => {
                         <td>
                             <select name="author" id="author" className='border-2 h-10 w-full p-2'
                                     value={dataForm.author}
-                                    onChange={onChange}>
+                                    onChange={handle}>
                                 {
                                     getAuthors && _.map(getAuthors, function (author) {
                                         return <option key={author.id} value={author.id}>{author.name}</option>
@@ -169,8 +152,9 @@ const Form = props => {
                         <td>
                             <button
                                 type="button"
+                                id='Author'
                                 className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                onClick={() => setOpen(true)}
+                                onClick={handleModal}
                             >
                                 Add
                             </button>
@@ -186,7 +170,7 @@ const Form = props => {
                                             <input type="checkbox" id={`cat-${category.id}`} name='categories'
                                                    value={category.id}
                                                    checked={dataForm.categories.includes(_.parseInt(category.id))}
-                                                   onChange={onChange}/>
+                                                   onChange={handle}/>
                                             <label htmlFor={`cat-${category.id}`}>{category.name}</label>
                                         </div>
                                     })
@@ -196,8 +180,9 @@ const Form = props => {
                         <td>
                             <button
                                 type="button"
+                                id='Category'
                                 className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                onClick={() => setOpen(true)}
+                                onClick={handleModal}
                             >
                                 Add
                             </button>
@@ -212,7 +197,7 @@ const Form = props => {
                                         return <div className='flex-1' key={`type-${type.id}`}>
                                             <input type="radio" id={`type-${type.id}`} name='type' value={type.id}
                                                    checked={dataForm.type === parseInt(type.id)}
-                                                   onChange={onChange}/>
+                                                   onChange={handle}/>
                                             <label htmlFor={`type-${type.id}`}>{type.name}</label>
                                         </div>
                                     })
@@ -228,7 +213,7 @@ const Form = props => {
                     </button>
                 </div>
             </form>
-            {modal}
+            {!_.isEmpty(modelModal) && modal}
         </>
     )
 }

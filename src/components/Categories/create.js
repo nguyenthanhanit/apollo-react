@@ -4,30 +4,29 @@ import _ from "lodash";
 import {onChange, save} from "../../utils";
 
 const CREATE_DATA = gql`
-    mutation CreateAuthorMutation($name: String!, $gender: Boolean!) {
-        createAuthor(name: $name, gender: $gender) {
+    mutation CreateCategoryMutation($name: String!, $description: String!) {
+        createCategory(name: $name, description: $description) {
             id
             name
-            gender
         }
     }
 `;
 
-const Author = props => {
+const Category = props => {
     const width = _.get(props, 'width', '');
-    const [createAuthor] = useMutation(CREATE_DATA, {
+    const [createCategory] = useMutation(CREATE_DATA, {
         refetchQueries: [
             props.query, // DocumentNode object parsed with gql
-            'getAuthors' // Query name
+            'getCategorys' // Query name
         ],
     });
     const [dataForm, setDataForm] = useState({
         name: '',
-        gender: true
+        description: ''
     });
 
     const handleSubmit = event => {
-        save(event, createAuthor, dataForm)
+        save(event, createCategory, dataForm)
         if (_.isFunction(props.onClose)) {
             props.onClose();
         }
@@ -51,20 +50,11 @@ const Author = props => {
                         </td>
                     </tr>
                     <tr>
-                        <td>Gender</td>
+                        <td>Description</td>
                         <td>
-                            <div className='flex gap-2 w-full'>
-                                <div className='flex-1' key='male'>
-                                    <input type="radio" id='male' name='gender' value={true}
-                                           onChange={handle}/>
-                                    <label htmlFor='male'>Male</label>
-                                </div>
-                                <div className='flex-1' key='female'>
-                                    <input type="radio" id='female' name='gender' value={false}
-                                           onChange={handle}/>
-                                    <label htmlFor='female'>Female</label>
-                                </div>
-                            </div>
+                            <textarea name="description" id="description" className='border-2 w-full p-2' cols="30"
+                                      rows="10"
+                                      value={dataForm.description} onChange={handle}/>
                         </td>
                     </tr>
                     </tbody>
@@ -80,4 +70,4 @@ const Author = props => {
     )
 }
 
-export default Author
+export default Category
