@@ -230,12 +230,10 @@ const Form = props => {
     )
 }
 
-function Comic() {
+export default function Comic() {
     const {loading, data} = useQuery(GET_DATA);
     if (loading) {
         return <div>Loading</div>
     }
     return <Form {...data} />
 }
-
-export default Comic

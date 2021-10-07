@@ -145,7 +145,7 @@ const Form = props => {
     )
 }
 
-function Comic() {
+export default function Comic() {
     const {loading, data} = useQuery(GET_DATA, {
         variables: useParams()
     });
@@ -154,5 +154,3 @@ function Comic() {
     }
     return <Form {...data} />
 }
-
-export default Comic

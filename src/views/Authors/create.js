@@ -4,29 +4,30 @@ import _ from "lodash";
 import {onChange, save} from "../../utils";
 
 const CREATE_DATA = gql`
-    mutation CreateCategoryMutation($name: String!, $description: String!) {
-        createCategory(name: $name, description: $description) {
+    mutation CreateAuthorMutation($name: String!, $gender: Boolean!) {
+        createAuthor(name: $name, gender: $gender) {
             id
             name
+            gender
         }
     }
 `;
 
-const Category = props => {
+export default function Author(props) {
     const width = _.get(props, 'width', '');
-    const [createCategory] = useMutation(CREATE_DATA, {
+    const [createAuthor] = useMutation(CREATE_DATA, {
         refetchQueries: [
             props.query, // DocumentNode object parsed with gql
-            'getCategorys' // Query name
+            'getAuthors' // Query name
         ],
     });
     const [dataForm, setDataForm] = useState({
         name: '',
-        description: ''
+        gender: true
     });
 
     const handleSubmit = event => {
-        save(event, createCategory, dataForm)
+        save(event, createAuthor, dataForm)
         if (_.isFunction(props.onClose)) {
             props.onClose();
         }
@@ -50,11 +51,21 @@ const Category = props => {
                         </td>
                     </tr>
                     <tr>
-                        <td>Description</td>
+                        <td>Gender</td>
                         <td>
-                            <textarea name="description" id="description" className='border-2 w-full p-2' cols="30"
-                                      rows="10"
-                                      value={dataForm.description} onChange={handle}/>
+                            <div className='flex gap-2 w-full'>
+                                <div className='flex-1' key='male'>
+                                    <input type="radio" id='male' name='gender' value={true}
+                                           defaultChecked={dataForm.gender}
+                                           onChange={handle}/>
+                                    <label htmlFor='male'>Male</label>
+                                </div>
+                                <div className='flex-1' key='female'>
+                                    <input type="radio" id='female' name='gender' value={false}
+                                           onChange={handle}/>
+                                    <label htmlFor='female'>Female</label>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -69,5 +80,3 @@ const Category = props => {
         </>
     )
 }
-
-export default Category

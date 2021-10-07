@@ -13,7 +13,7 @@ const GET_DATA = gql`
     }
 `;
 
-function Author() {
+export default function Author() {
     const {loading, data} = useQuery(GET_DATA, {
         variables: useParams()
     });
@@ -32,5 +32,3 @@ function Author() {
         }
     </div>
 }
-
-export default Author

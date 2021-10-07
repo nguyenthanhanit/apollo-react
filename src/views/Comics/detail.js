@@ -20,7 +20,7 @@ const GET_DATA = gql`
     }
 `;
 
-function Comic() {
+export default function Comic() {
     const {loading, data} = useQuery(GET_DATA, {
         variables: useParams()
     });
@@ -30,12 +30,12 @@ function Comic() {
     }
     return (
         <>
-            Name: {comic.name}
-            <br/>
-            Author: {comic.author.name}
+            <div className='mb-10'>
+                Name: {comic.name}
+                <br/>
+                Author: {comic.author.name}
+            </div>
             {!_.isEmpty(comic.chapters) && <Chapters list={comic.chapters}/>}
         </>
     );
 }
-
-export default Comic;

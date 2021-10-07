@@ -12,7 +12,7 @@ const GET_DATA = gql`
     }
 `;
 
-function Category() {
+export default function Category() {
     const {loading, data} = useQuery(GET_DATA, {
         variables: useParams()
     });
@@ -31,5 +31,3 @@ function Category() {
         }
     </div>
 }
-
-export default Category
