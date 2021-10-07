@@ -22,14 +22,26 @@ const GET_DATA = gql`
 export default function Tree(props) {
     const authors = _.get(useQuery(GET_DATA), 'data.getAuthors', []);
 
-    const renderBody = data => {
+    const renderBody = (data, index) => {
         return (
-            <div>
+            <div className={_.size(data) > 1 ? 'border-blue-500 border-l-4' : ''}>
                 {
                     _.map(data, function (value, name) {
                         if (name === 'id' || name === '__typename') return;
-                        if (_.isArray(value)) return <div className='ml-20'>{renderTable(value)}</div>
-                        return <div>{value}</div>
+                        if (_.isArray(value)) {
+                            return (
+                                <div className='ml-20 relative'>
+                                    {renderTable(value)}
+                                </div>
+                            )
+                        }
+                        return (
+                            <div className='relative'>
+                                <div className='absolute h-1 w-5 bg-blue-500 top-1/2'/>
+                                <div className='absolute h-5 w-1 bg-blue-500'  style={{top: -4}}/>
+                                <span className='ml-8'>{value}</span>
+                            </div>
+                        )
                     })
                 }
             </div>
@@ -38,7 +50,7 @@ export default function Tree(props) {
 
     const renderTable = data => {
         return (
-            <div>
+            <div className='ml-8'>
                 {
                     _.map(data, renderBody)
                 }
