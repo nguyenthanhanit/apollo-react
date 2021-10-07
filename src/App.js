@@ -17,6 +17,7 @@ import CreateComic from './views/Comics/create';
 import Chapter from "./views/Chapters/detail";
 // Categories
 import Categories from './views/Categories';
+import Tree from "./components/Tree";
 
 class App extends Component {
     render() {
@@ -34,6 +35,8 @@ class App extends Component {
                                               className="bg-white text-black px-3 py-2 rounded-md text-sm font-medium">Comic</Link>
                                         <Link to="/category"
                                               className="bg-white text-black px-3 py-2 rounded-md text-sm font-medium">Category</Link>
+                                        <Link to="/tree"
+                                              className="bg-white text-black px-3 py-2 rounded-md text-sm font-medium">Tree</Link>
                                     </div>
                                 </div>
                             </div>
@@ -52,6 +55,7 @@ class App extends Component {
                     <Route exact path="/comic/chapter/:id" component={Chapter}/>
 
                     <Route exact path="/category" component={Categories}/>
+                    <Route exact path="/tree" component={Tree}/>
                 </Switch>
             </div>
         </Router>
