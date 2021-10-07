@@ -20,6 +20,13 @@ const GET_DATA = gql`
             id
             name
         }
+        getComics {
+            id
+            name
+            author {
+                name
+            }
+        }
     }
 `;
 
@@ -41,23 +48,11 @@ const CREATE_DATA = gql`
     }
 `;
 
-const GET_ALL_DATA = gql`
-    query Query {
-        getComics {
-            id
-            name
-            author {
-                name
-            }
-        }
-    }
-`;
-
 const Form = props => {
     const [createComic] = useMutation(CREATE_DATA, {
         refetchQueries: [
-            GET_ALL_DATA, // DocumentNode object parsed with gql
-            'getComics' // Query name
+            GET_DATA, // DocumentNode object parsed with gql
+            'getCategories' // Query name
         ],
     });
     let {getTypes, getAuthors, getCategories} = props;
