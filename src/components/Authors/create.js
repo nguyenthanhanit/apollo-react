@@ -56,6 +56,7 @@ const Author = props => {
                             <div className='flex gap-2 w-full'>
                                 <div className='flex-1' key='male'>
                                     <input type="radio" id='male' name='gender' value={true}
+                                           defaultChecked={dataForm.gender}
                                            onChange={handle}/>
                                     <label htmlFor='male'>Male</label>
                                 </div>

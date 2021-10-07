@@ -39,7 +39,7 @@ const Authors = () => {
                     {author.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {author.gender}
+                    {author.gender ? 'Male' : 'Female'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <Link to={`author/${author.id}`}
