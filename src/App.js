@@ -53,6 +53,7 @@ class App extends Component {
                     <Route exact path="/comic/:id/edit" component={EditComic}/>
 
                     <Route exact path="/comic/chapter/:id" component={Chapter}/>
+                    <Route exact path="/chapter/:id" component={Chapter}/>
 
                     <Route exact path="/category" component={Categories}/>
                     <Route exact path="/tree" component={Tree}/>
