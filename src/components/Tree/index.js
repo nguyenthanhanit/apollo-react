@@ -24,7 +24,7 @@ export default function Tree(props) {
 
     const renderBody = (data, index) => {
         return (
-            <div className={_.size(data) > 1 ? 'border-blue-500 border-l-4' : ''}>
+            <div>
                 {
                     _.map(data, function (value, name) {
                         if (name === 'id' || name === '__typename') return;
