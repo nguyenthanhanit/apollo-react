@@ -24,9 +24,9 @@ export default function Tree() {
     const authors = _.get(useQuery(GET_DATA), 'data.getAuthors', []);
     const columns = ['Authors', 'Comics', 'Chapters'];
 
-    const renderHeader = (column) => {
+    const renderHeader = (column, index) => {
         return (
-            <th>{column}</th>
+            <th key={index}>{column}</th>
         )
     }
 
@@ -43,7 +43,7 @@ export default function Tree() {
             const typename = _.get(authors, [...path, '__typename']);
             const id = _.get(authors, [...path, 'id']);
             return (
-                <tr>
+                <tr key={id}>
                     <td className={!level ? 'border-blue-500 border-b' : ''}>
                         {
                             !level &&
@@ -69,16 +69,20 @@ export default function Tree() {
 
     return (
         <table className='w-full'>
+            <thead>
             <tr>
                 {
                     _.map(columns, renderHeader)
                 }
             </tr>
+            </thead>
+            <tbody>
             {
                 _.map(authors, function (author, index) {
                     return renderRow(author, [index])
                 })
             }
+            </tbody>
         </table>
     )
 }
