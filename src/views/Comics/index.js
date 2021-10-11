@@ -11,6 +11,7 @@ const GET_DATA = gql`
             author {
                 name
             }
+            visible
         }
     }
 `;
@@ -22,8 +23,8 @@ const DELETE_DATA = gql`
 `;
 
 export default function Comics() {
-    const authors = _.get(useQuery(GET_DATA), 'data.getComics', []);
-    const fields = ['name', 'author.name'];
+    const comics = _.get(useQuery(GET_DATA), 'data.getComics', []);
+    const fields = ['name', 'author.name', 'visible'];
     const model = 'Comic';
     const [deleteAuthor] = useMutation(DELETE_DATA, {
         refetchQueries: [
@@ -32,5 +33,5 @@ export default function Comics() {
         ],
     });
 
-    return <List data={authors} model={model} fields={fields} actionDelete={deleteAuthor}/>
+    return <List data={comics} model={model} fields={fields} actionDelete={deleteAuthor}/>
 };

@@ -13,6 +13,7 @@ import Comics from "./views/Comics";
 import Comic from "./views/Comics/detail";
 import EditComic from './views/Comics/update';
 import CreateComic from './views/Comics/create';
+import Visible from './views/Comics/visible';
 // Chapters
 import Chapter from "./views/Chapters/detail";
 // Categories
@@ -37,6 +38,8 @@ class App extends Component {
                                               className="bg-white text-black px-3 py-2 rounded-md text-sm font-medium">Category</Link>
                                         <Link to="/tree"
                                               className="bg-white text-black px-3 py-2 rounded-md text-sm font-medium">Tree</Link>
+                                        <Link to="/visible"
+                                              className="bg-white text-black px-3 py-2 rounded-md text-sm font-medium">Visible</Link>
                                     </div>
                                 </div>
                             </div>
@@ -51,6 +54,7 @@ class App extends Component {
                     <Route exact path="/comic/create" component={CreateComic}/>
                     <Route exact path="/comic/:id" component={Comic}/>
                     <Route exact path="/comic/:id/edit" component={EditComic}/>
+                    <Route exact path="/visible" component={Visible}/>
 
                     <Route exact path="/comic/chapter/:id" component={Chapter}/>
                     <Route exact path="/chapter/:id" component={Chapter}/>
