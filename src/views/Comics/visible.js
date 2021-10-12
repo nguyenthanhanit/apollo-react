@@ -136,7 +136,7 @@ export default function Comics() {
                     }
                     {
                         _.isEmpty(publicComics) && <tr>
-                            <td className='text-center'>Empty</td>
+                            <td className='text-center bg-red-500'>Empty</td>
                         </tr>
                     }
                     </tbody>
@@ -154,13 +154,13 @@ export default function Comics() {
                      onClick={() => move()}
                      fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
                 </svg>
                 <svg xmlns="http://www.w3.org/2000/svg"
                      className={`h-6 w-6 mx-auto bg-blue-500 text-white rounded cursor-pointer ${!_.isNull(lockTable) && !lockTable ? 'opacity-75 pointer-events-none' : ''}`}
                      fill="none" viewBox="0 0 24 24" onClick={() => move('right')}
                      stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                           d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
                 </svg>
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -168,14 +168,14 @@ export default function Comics() {
                      onClick={() => move()}
                      fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
                 </svg>
                 <svg xmlns="http://www.w3.org/2000/svg"
                      className={`h-6 w-6 mx-auto bg-blue-500 text-white rounded cursor-pointer ${lockTable ? 'opacity-75 pointer-events-none' : ''}`}
                      onClick={() => move('left')}
                      fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                           d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
                 </svg>
             </div>
@@ -204,7 +204,7 @@ export default function Comics() {
                     }
                     {
                         _.isEmpty(privateComics) && <tr>
-                            <td className='text-center'>Empty</td>
+                            <td className='text-center bg-red-500'>Empty</td>
                         </tr>
                     }
                     </tbody>
