@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 // Authors
 import Authors from "./views/Authors";
+import CreateAuthor from "./views/Authors/create";
 import Author from "./views/Authors/detail";
 // Comics
 import Comics from "./views/Comics";
@@ -48,6 +49,7 @@ class App extends Component {
                 </nav>
                 <Switch>
                     <Route exact path="/author" component={Authors}/>
+                    <Route exact path="/author/create" component={CreateAuthor}/>
                     <Route exact path="/author/:id" component={Author}/>
 
                     <Route exact path="/comic" component={Comics}/>

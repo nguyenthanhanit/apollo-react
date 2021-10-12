@@ -31,8 +31,8 @@ const GET_DATA = gql`
 `;
 
 const CREATE_DATA = gql`
-    mutation CreateComicMutation($name: String!, $author: Int!, $type: Int!, $categories: Array) {
-        createComic(name: $name, authorId: $author, typeId: $type, categories: $categories) {
+    mutation CreateComicMutation($name: String!, $author: Int!, $type: Int!, $categories: Array, $visible: Boolean!) {
+        createComic(name: $name, authorId: $author, typeId: $type, categories: $categories, visible: $visible) {
             id
             name
             author {
