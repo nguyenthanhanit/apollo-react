@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test user form 1`] = `
+<div>
+  <div>
+    <a
+      class="bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium mr-1"
+      href="/Author/Author/create"
+    >
+      Create
+    </a>
+    <div
+      class="flex flex-col mt-5"
+    >
+      <div
+        class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8"
+      >
+        <div
+          class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+        >
+          <div
+            class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+          >
+            <table
+              class="min-w-full divide-y divide-gray-200"
+            >
+              <caption>
+                Author
+              </caption>
+              <thead
+                class="bg-gray-50"
+              >
+                <tr>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    scope="col"
+                  >
+                    name
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    scope="col"
+                  >
+                    gender
+                  </th>
+                  <th
+                    class="relative px-6 py-3"
+                    scope="col"
+                  >
+                    <span
+                      class="sr-only"
+                    >
+                      Action
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="bg-white divide-y divide-gray-200"
+              />
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form
+    class="w-full"
+  >
+    <table
+      class="w-1/2 mx-auto"
+    >
+      <tbody>
+        <tr>
+          <td
+            class="uppercase"
+          >
+            name
+          </td>
+          <td>
+            <input
+              class="border-2 h-10 w-full p-2"
+              name="name"
+              type="text"
+              value=""
+            />
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="uppercase"
+          >
+            gender
+          </td>
+          <td>
+            <div
+              class="flex gap-2 w-full"
+            >
+              <div
+                class="flex-1"
+              >
+                <input
+                  id="male"
+                  name="gender"
+                  type="radio"
+                  value="true"
+                />
+                <label
+                  for="male"
+                >
+                  Male
+                </label>
+              </div>
+              <div
+                class="flex-1"
+              >
+                <input
+                  id="female"
+                  name="gender"
+                  type="radio"
+                  value="false"
+                />
+                <label
+                  for="female"
+                >
+                  Female
+                </label>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      class="w-1/2 mt-2"
+    >
+      <button
+        class="float-right bg-blue-500 text-white px-3 py-2 rounded-md font-medium"
+        type="submit"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+`;

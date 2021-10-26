@@ -9,13 +9,13 @@ export default function form(state = {}, action) {
             };
         case SAVE_SUCCESS:
             return {
-                data: {},
+                data: action.data,
                 status: 200,
                 message: 'Successfully',
             };
         case SAVE_ERROR:
             return {
-                data: {},
+                data: action.data,
                 status: 500,
                 message: 'Fail',
             };

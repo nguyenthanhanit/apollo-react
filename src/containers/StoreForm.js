@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Form from "../components/Form";
-import * as changeDataForm from '../actions/FormActions';
+import * as actionsForm from '../actions/FormActions';
 
 class StoreForm extends Component {
     render() {
@@ -18,7 +18,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(changeDataForm, dispatch)
+        actions: bindActionCreators(actionsForm, dispatch)
     };
 }
 

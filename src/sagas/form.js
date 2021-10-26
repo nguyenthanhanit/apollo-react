@@ -1,4 +1,4 @@
-import {takeEvery, select, put, call} from 'redux-saga/effects';
+import {takeEvery, select, put} from 'redux-saga/effects';
 import {SAVE_FORM, SAVE_SUCCESS} from "../constants/ActionTypes";
 
 function* watch() {
@@ -7,8 +7,7 @@ function* watch() {
 
 function* save() {
     try {
-        const data = yield select(state => state.formReducers);
-        // yield call();
+        yield select(state => state.formReducers);
         yield put({type: SAVE_SUCCESS})
     } catch (e) {
         console.log(e)
